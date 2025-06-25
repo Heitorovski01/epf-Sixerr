@@ -1,7 +1,7 @@
 [
     {
-        "id": 1,
-        "name": "UsuÃ¡rio Teste",
+        "id": "1",
+        "name": "Usuario Teste",
         "email": "uduarioteste@email.com",
         "password_hash":"ABDF123",
         "user_type":"Vendedor"

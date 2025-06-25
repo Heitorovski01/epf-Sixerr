@@ -16,7 +16,7 @@
                     <th>ID</th>
                     <th>Nome</th>
                     <th>Email</th>
-                    <th>Data Nasc.</th>
+                    <th>Tipo User</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -27,7 +27,7 @@
                     <td>{{u.id}}</td>
                     <td>{{u.name}}</td>
                     <td><a href="mailto:{{u.email}}">{{u.email}}</a></td>
-                    <td>{{u.birthdate}}</td>
+                    <td><{{u.user_type}}</td>
                     
                     <td class="actions">
                         <a href="/users/edit/{{u.id}}" class="btn btn-sm btn-edit">
