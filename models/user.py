@@ -1,40 +1,30 @@
 import json
 import os
+import uuid
 from dataclasses import dataclass, asdict
 from typing import List
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
 
 class User:
-    def __init__(self, id, name, email, birthdate):
-        self.id = id
+    def __init__(self, id, name, email, password_hash, user_type='comprador', user_id=None):
+        self.id = user_id if user_id else str(uuid.uuid4())
         self.name = name
         self.email = email
-        self.birthdate = birthdate
-
-
-    def __repr__(self):
-        return (f"User(id={self.id}, name='{self.name}', email='{self.email}', "
-                f"birthdate='{self.birthdate}'")
-
+        self.password_hash = password_hash 
+        self.user_type = user_type 
 
     def to_dict(self):
         return {
-            'id': self.id,
-            'name': self.name,
-            'email': self.email,
-            'birthdate': self.birthdate
+            "id": self.id,
+            "name": self.name,
+            "email": self.email,
+            "password_hash": self.password_hash,
+            "user_type": self.user_type
         }
 
 
-    @classmethod
-    def from_dict(cls, data):
-        return cls(
-            id=data['id'],
-            name=data['name'],
-            email=data['email'],
-            birthdate=data['birthdate']
-        )
+    
 
 
 class UserModel:

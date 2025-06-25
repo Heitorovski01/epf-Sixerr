@@ -16,9 +16,10 @@ class UserService:
         new_id = last_id + 1
         name = request.forms.get('name')
         email = request.forms.get('email')
-        birthdate = request.forms.get('birthdate')
+        password_hash = request.forms.get('password_hash')
+        user_type = request.forms.get('user_type')
 
-        user = User(id=new_id, name=name, email=email, birthdate=birthdate)
+        user = User(id=new_id, name=name, email=email, password_hash = password_hash, user_type = user_type )
         self.user_model.add_user(user)
 
 
@@ -29,11 +30,13 @@ class UserService:
     def edit_user(self, user):
         name = request.forms.get('name')
         email = request.forms.get('email')
-        birthdate = request.forms.get('birthdate')
+        password_hash = request.forms.get('password_hash')
+        user_type = request.forms.get('user_type')
 
         user.name = name
         user.email = email
-        user.birthdate = birthdate
+        user.password_hash = password_hash
+        user.user_type = user_type
 
         self.user_model.update_user(user)
 
