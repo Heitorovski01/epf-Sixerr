@@ -63,3 +63,21 @@ class UserService:
 
     def delete_user(self, user_id):
         self.user_model.delete_user(user_id)
+
+    def check_password(self, email: str, password: str):
+        
+        all_users = self.user_model.get_all()
+        user_found = next((u for u in all_users if u.email == email), None)
+
+        if not user_found:
+            return None
+
+        password_is_valid = bcrypt.checkpw(
+            password.encode('utf-8'), 
+            user_found.password_hash.encode('utf-8')
+        )
+
+        if password_is_valid:
+            return user_found
+        else:
+            return None
