@@ -17,6 +17,26 @@ class UserController(BaseController):
         self.app.route('/users/edit/<user_id:int>', method=['GET', 'POST'], callback=self.edit_user)
         self.app.route('/users/delete/<user_id:int>', method='POST', callback=self.delete_user)
 
+        self.app.route('/register', method=['GET', 'POST'], callback=self.register)
+        self.app.route('/login', method=['GET', 'POST'], callback=self.login)
+
+    def login(self):
+
+        if request.method == 'GET':
+            return self.render('login_form')
+
+        if request.method == 'POST':
+            email = request.forms.get('email')
+            password = request.forms.get('password')
+
+            user = self.user_service.check_password(email, password)
+
+            if user:
+                print(f"Login bem-sucedido para o usuário: {user.name}")
+                return self.redirect('/users')
+            else:
+                return self.render('login_form', error="E-mail ou senha inválidos.")
+
 
     def list_users(self):
         users = self.user_service.get_all()
@@ -48,6 +68,34 @@ class UserController(BaseController):
     def delete_user(self, user_id):
         self.user_service.delete_user(user_id)
         self.redirect('/users')
+
+    def register(self):
+        if request.method == 'GET':
+            return self.render('register_form')
+
+        if request.method == 'POST':
+            name = request.forms.get('name')
+            email = request.forms.get('email')
+            password = request.forms.get('password')
+            user_type = request.forms.get('user_type')
+            
+            try:
+                
+                extra_data = {}
+                if user_type == 'vendedor':
+                    extra_data = {
+                        'username': request.forms.get('username'),
+                        'headline': request.forms.get('headline'),
+                        'bio': request.forms.get('bio'),
+                        'skills': request.forms.get('skills'),
+                        'location': request.forms.get('location')
+                    }
+                
+                self.user_service.save_user(name, email, password, user_type, **extra_data)
+                
+                return self.redirect('/users')
+            except Exception as e:
+                return f"<h1>Ocorreu um erro ao registrar: {e}</h1>"
 
 
 user_routes = Bottle()

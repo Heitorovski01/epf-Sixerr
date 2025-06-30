@@ -7,20 +7,33 @@ from typing import List
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
 
 class User:
-    def __init__(self, id, name, email, password_hash, user_type='comprador', user_id=None):
-        self.id = user_id if user_id else str(uuid.uuid4())
+    def __init__(self, id: int, name: str, email: str, password_hash: str, user_type: str,
+                 username: str = None, headline: str = None, bio: str = None, 
+                 skills: list = None, location: str = None):
+        self.id = id
         self.name = name
         self.email = email
-        self.password_hash = password_hash 
-        self.user_type = user_type 
+        self.password_hash = password_hash
+        self.user_type = user_type
+        self.username = username
+        self.headline = headline
+        self.bio = bio
+        self.skills = skills if skills is not None else [] 
+        self.location = location
 
     def to_dict(self):
+        
         return {
             "id": self.id,
             "name": self.name,
             "email": self.email,
             "password_hash": self.password_hash,
-            "user_type": self.user_type
+            "user_type": self.user_type,
+            "username": self.username,
+            "headline": self.headline,
+            "bio": self.bio,
+            "skills": self.skills,
+            "location": self.location
         }
 
 
