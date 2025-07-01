@@ -15,7 +15,10 @@ class UserService:
     def save_user(self, name, email, password, user_type, **kwargs):
         
         all_users = self.user_model.get_all()
-        last_id = max([u.id for u in all_users], default=0)
+
+        last_id = 0
+        if all_users:
+            last_id = max([int(u.id) for u in all_users])
         new_id = last_id + 1
 
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
