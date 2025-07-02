@@ -34,6 +34,9 @@ class UserService:
             user_type=user_type,
             **kwargs 
         )
+        self.user_model.add_user(user)
+
+        return user
 
     def get_by_id(self, user_id):
         return self.user_model.get_by_id(user_id)
