@@ -8,7 +8,7 @@ class BaseController:
 
     def _setup_base_routes(self):
         """Configura rotas básicas comuns a todos os controllers"""
-        self.app.route('/', method='GET', callback=self.home_redirect)
+        self.app.route('/', method='GET', callback=self.show_homepage)
         self.app.route('/helper', method=['GET'], callback=self.helper)
 
         # Rota para arquivos estáticos (CSS, JS, imagens)
@@ -48,3 +48,5 @@ class BaseController:
                 status=200,
                 headers={'Content-Type': 'text/html'}
                 )
+    def show_homepage(self):
+        return self.render('home', title='Bem-Vindo ao Sixerr', style='home_style')
