@@ -1,9 +1,28 @@
 [
     {
-        "id": "1",
-        "name": "Usuario Teste",
-        "email": "uduarioteste@email.com",
-        "password_hash":"ABDF123",
-        "user_type":"Vendedor"
+        "id": 1,
+        "name": "heitor",
+        "email": "heitorbsbdf@gmail.com",
+        "password_hash": "$2b$12$Ns4RENg8baU35pI7aQEvCeZrYKqZ706k77G1awy8a0oNUhyABEMbq",
+        "user_type": "comprador",
+        "username": null,
+        "headline": null,
+        "bio": null,
+        "skills": [],
+        "location": null
+    },
+    {
+        "id": 2,
+        "name": "heitorbusines",
+        "email": "teste2@gmail.com",
+        "password_hash": "$2b$12$0E4T.ZCqBC3GwZ/gz1/Od.W0MPDO1ACXp4iWg9BqrQK0ICTwp8Omu",
+        "user_type": "vendedor",
+        "username": "programador",
+        "headline": "programador",
+        "bio": "aprendiz de programador",
+        "skills": [
+            "n/a"
+        ],
+        "location": "brasilia"
     }
 ]
