@@ -1,102 +1,35 @@
-from bottle import Bottle, request
-from .base_controller import BaseController
-from services.user_service import UserService
+# controllers/user_controller.py
+from bottle import request, response, redirect, template
+from models.usuario import Usuario
+from models.freelancer import Freelancer
+from models.cliente import Cliente
 
-class UserController(BaseController):
-    def __init__(self, app):
-        super().__init__(app)
+class UserController:
+    def register(self): return template('register.tpl', error=None)
+    def login(self): return template('login.tpl', error=None)
 
-        self.setup_routes()
-        self.user_service = UserService()
+    def do_register(self):
+        nome, email, senha, tipo = request.forms.get('nome'), request.forms.get('email'), request.forms.get('senha'), request.forms.get('tipo_usuario')
+        if not all([nome, email, senha, tipo]): return template('register.tpl', error="Todos os campos são obrigatórios.")
+        if Usuario.find_by_email(email): return template('register.tpl', error="Este e-mail já está em uso.")
+        
+        UserClass = Freelancer if tipo == 'freelancer' else Cliente
+        novo_usuario = UserClass(nome=nome, email=email)
+        novo_usuario.set_senha(senha)
+        novo_usuario.save()
+        redirect('/login')
 
-
-    # Rotas User
-    def setup_routes(self):
-        self.app.route('/users', method='GET', callback=self.list_users)
-        self.app.route('/users/add', method=['GET', 'POST'], callback=self.add_user)
-        self.app.route('/users/edit/<user_id:int>', method=['GET', 'POST'], callback=self.edit_user)
-        self.app.route('/users/delete/<user_id:int>', method='POST', callback=self.delete_user)
-
-        self.app.route('/register', method=['GET', 'POST'], callback=self.register)
-        self.app.route('/login', method=['GET', 'POST'], callback=self.login)
-
-    def login(self):
-
-        if request.method == 'GET':
-            return self.render('login_form')
-
-        if request.method == 'POST':
-            email = request.forms.get('email')
-            password = request.forms.get('password')
-
-            user = self.user_service.check_password(email, password)
-
-            if user:
-                print(f"Login bem-sucedido para o usuário: {user.name}")
-                return self.redirect('/users')
-            else:
-                return self.render('login_form', error="E-mail ou senha inválidos.")
-
-
-    def list_users(self):
-        users = self.user_service.get_all()
-        return self.render('users', users=users)
-
-
-    def add_user(self):
-        if request.method == 'GET':
-            return self.render('user_form', user=None, action="/users/add")
+    def do_login(self):
+        email, senha = request.forms.get('email'), request.forms.get('senha')
+        if not all([email, senha]): return template('login.tpl', error="Email e senha são obrigatórios.")
+        
+        usuario = Usuario.find_by_email(email)
+        if usuario and usuario.check_senha(senha):
+            response.set_cookie("user_id", str(usuario.id), secret="troque-por-uma-frase-muito-longa-e-segura-depois", path='/')
+            redirect('/')
         else:
-            # POST - salvar usuário
-            self.user_service.save()
-            self.redirect('/users')
+            return template('login.tpl', error="E-mail ou senha inválidos.")
 
-
-    def edit_user(self, user_id):
-        user = self.user_service.get_by_id(user_id)
-        if not user:
-            return "Usuário não encontrado"
-
-        if request.method == 'GET':
-            return self.render('user_form', user=user, action=f"/users/edit/{user_id}")
-        else:
-            # POST - salvar edição
-            self.user_service.edit_user(user)
-            self.redirect('/users')
-
-
-    def delete_user(self, user_id):
-        self.user_service.delete_user(user_id)
-        self.redirect('/users')
-
-    def register(self):
-        if request.method == 'GET':
-            return self.render('register_form')
-
-        if request.method == 'POST':
-            name = request.forms.get('name')
-            email = request.forms.get('email')
-            password = request.forms.get('password')
-            user_type = request.forms.get('user_type')
-            
-            try:
-                
-                extra_data = {}
-                if user_type == 'vendedor':
-                    extra_data = {
-                        'username': request.forms.get('username'),
-                        'headline': request.forms.get('headline'),
-                        'bio': request.forms.get('bio'),
-                        'skills': request.forms.get('skills'),
-                        'location': request.forms.get('location')
-                    }
-                
-                self.user_service.save_user(name, email, password, user_type, **extra_data)
-                
-                return self.redirect('/users')
-            except Exception as e:
-                return f"<h1>Ocorreu um erro ao registrar: {e}</h1>"
-
-
-user_routes = Bottle()
-user_controller = UserController(user_routes)
+    def logout(self):
+        response.delete_cookie("user_id", path='/')
+        redirect('/login')
