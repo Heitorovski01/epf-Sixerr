@@ -55,7 +55,7 @@ body {
 
 
 .dark-section {
-    background-color: #121212; 
+    background-color: #0c0c0c; 
     color: #ffffff; 
     padding: 5rem 0; 
 }
@@ -71,7 +71,6 @@ body {
     opacity: 1;
 }
 
-/* [OPCIONAL] - Deixa os cards com um tema escuro também, fica mais elegante */
 .service-card {
     background-color: #1e1e1e; 
     border: 1px solid #3a3a3a; 
@@ -82,7 +81,7 @@ body {
 }
 
 .service-card .card-text.text-muted {
-    color: #a0a0a0 !important; 
+    color: #a6a6a6 !important; 
 }
 
 .service-card .price {

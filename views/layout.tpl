@@ -12,6 +12,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="/static/css/custom.css" />
+    % if defined('style'):
+        <link rel="stylesheet" href="/static/css/{{style}}.css" />
+    % end
 </head>
 <body class="d-flex flex-column h-100">
 
