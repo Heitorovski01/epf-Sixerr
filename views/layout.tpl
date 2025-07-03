@@ -22,7 +22,7 @@
         <nav class="navbar navbar-expand-lg">
             <div class="container">
                 <a href="/" class="navbar-brand logo">
-                    <img src="static/img/logo.png"
+                    <img src="/static/img/logo.png"/>
                     <span>Sixerr.</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
