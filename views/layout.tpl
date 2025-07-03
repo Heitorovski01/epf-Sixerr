@@ -19,7 +19,7 @@
     <header class="main-header">
         <div class="container">
             <a href="/" class="logo">
-                <img src="static/img/Sixerr.png" alt="Logo Sixerr">
+                <img src="static/img/logo.png" alt="Logo Sixerr">
                 <span>Sixerr</span>
             </a>
             </div>

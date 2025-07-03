@@ -1,3 +1,5 @@
+%rebase('layout', title=title, style=style)
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -14,7 +16,7 @@
 <body>
 
     <div class="form-container">
-        <img src="/static/img/Sixerr.png" class="form-logo"/>
+        <img src="/static/img/logo.png" class="form-logo"/>
         <h1>Crie sua Conta</h1>
 
         <p>Comece a vender ou contratar serviços hoje mesmo.</p>
@@ -91,4 +93,4 @@
         });
     </script>
 </body>
-</html>x
+</html>

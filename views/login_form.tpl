@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="form-container">
-        <img src="/static/img/Sixerr.png" class="form-logo"/>
+        <img src="/static/img/logo.png" class="form-logo"/>
         <h1>Acesse sua Conta</h1>
         <p>Bem-vindo de volta!</p>
 
