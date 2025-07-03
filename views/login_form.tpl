@@ -1,39 +1,21 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Sixerr</title>
-    <link rel="stylesheet" type="text/css" href="/static/css/register_style.css">
-</head>
-<body>
-    <div class="form-container">
-        <img src="/static/img/logo.png" class="form-logo"/>
-        <h1>Acesse sua Conta</h1>
-        <p>Bem-vindo de volta!</p>
+% rebase('layout.tpl', title='Login')
 
-        % if defined('error'):
-            <p style="color: red; font-weight: bold;">{{error}}</p>
-        % end
-
-        <form action="/login" method="post">
-            <div>
-                <label for="email">E-mail:</label>
-                <input type="email" id="email" name="email" required>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="text-center mb-4">Login</h2>
+        <form action="/login" method="post" class="card p-4">
+            % if defined('error') and error:
+                <div class="alert alert-danger">{{error}}</div>
+            % end
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
             </div>
-            
-            <div>
-                <label for="password">Senha:</label>
-                <input type="password" id="password" name="password" required>
+            <div class="mb-3">
+                <label for="senha" class="form-label">Senha</label>
+                <input type="password" class="form-control" id="senha" name="senha" required>
             </div>
-            <br>
-            <button type="submit">Entrar</button>
+            <button type="submit" class="btn btn-primary w-100">Entrar</button>
         </form>
-
-        <div class="login-link">
-             <p>Não tem uma conta? <a href="/register">Cadastre-se</a></p>
-        </div>
-
-    </div>
-</body>
-</html>
+    </div>
+</div>
