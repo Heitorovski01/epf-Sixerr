@@ -46,10 +46,10 @@
                             </li>
                         % else:
                             <li class="nav-item">
-                                <a class="nav-link" href="/login">Login</a>
+                                <a class="nav-link text-black" href="/login">Login</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/register">Cadastre-se</a>
+                                <a class="nav-link text-black" href="/register">Cadastre-se</a>
                             </li>
                         % end
                     </ul>

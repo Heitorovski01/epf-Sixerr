@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-5 col-md-8">
                 
-                <div class="card bg-dark text-light border-secondary">
+                <div class="card bg-dark text-light border-0">
                     <div class="card-body p-5">
 
                         <h2 class="card-title text-center mb-4">Acessar sua Conta</h2>
@@ -41,6 +41,6 @@
 </div>
 <footer class="footer mt-auto py-3">
         <div class="container text-center">
-            <span class="text-muted">&copy; 2025 Sixerr. Todos os direitos reservados</span>
+            <span class="text-light">&copy; 2025 Sixerr. Todos os direitos reservados</span>
         </div>
 </footer>

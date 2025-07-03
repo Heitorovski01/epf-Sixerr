@@ -1,6 +1,6 @@
 .btn-primary {
-    background-color: #0a237f; 
-    border-color: #0a237f;
+    background-color: #010a2a; 
+    border-color: #010a2a;
 }
 
 .btn-primary:hover {
@@ -9,5 +9,5 @@
 }
 
 .dark-section {
-    height: 86vh;
+    height: 87vh;
 }

@@ -90,6 +90,7 @@ body {
 
 /* --- Rodapé --- */
 .footer {
-    background-color: #ffffff;
+    background-color: #020202;
     border-top: 1px solid #dee2e6;
+    height: 6.5vh;
 }
