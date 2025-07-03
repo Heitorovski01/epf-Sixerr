@@ -33,3 +33,10 @@ class UserController:
     def logout(self):
         response.delete_cookie("user_id", path='/')
         redirect('/login')
+    
+    def delete_self(self, user_id):
+        Usuario.delete_by_id(user_id)
+       
+        response.delete_cookie("user_id", path='/')
+    
+        redirect('/')

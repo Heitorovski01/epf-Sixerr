@@ -69,3 +69,12 @@ class Usuario:
         user = UserClass(nome=user_data['nome'], email=user_data['email'], id=user_data['id'])
         user._senha_hash = user_data['senha_hash']
         return user
+    
+    @staticmethod
+    def delete_by_id(user_id: int):
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute("DELETE FROM usuarios WHERE id = ?", (user_id,))
+        conn.commit()
+        conn.close()

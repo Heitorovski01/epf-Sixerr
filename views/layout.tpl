@@ -29,6 +29,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/logout">Logout</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="/usuario/deletar" class="nav-link text-danger" onclick="return confirm('Atenção! Esta ação é permanente. Tem a certeza de que quer excluir a sua conta e todos os seus dados?');">
+                                Excluir Conta
+                            </a>
+                        </li>
                     % else:
                         <li class="nav-item">
                             <a class="nav-link" href="/login">Login</a>

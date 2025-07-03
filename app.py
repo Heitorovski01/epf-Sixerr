@@ -95,6 +95,11 @@ def create_app():
     @login_required
     def deletar_servico(servico_id, **kwargs): 
         return servico_ctrl.delete_service(servico_id)
+    
+    @app.route('/usuario/deletar')
+    @login_required
+    def deletar_usuario_self(user_id):
+        return user_ctrl.delete_self(user_id)
 
     # --- Retorna a aplicação configurada ---
     return app
