@@ -1,32 +1,27 @@
-# app.py (Versão com correção do caminho dos templates)
 
 import sqlite3
-# --- ALTERAÇÃO AQUI ---
-# Precisamos importar o TEMPLATE_PATH do bottle
+
 from bottle import Bottle, static_file, request, redirect, template, TEMPLATE_PATH
 
 def create_app():
-    """Cria e configura a instância da aplicação Bottle."""
+    
     app = Bottle()
 
-    # --- CORREÇÃO AQUI ---
-    # Diz ao Bottle para procurar templates também na pasta 'views'
+   
     TEMPLATE_PATH.insert(0, './views/')
 
-    # --- Importações dos Controllers ---
+   
     from controllers.user_controller import UserController
     from controllers.servico_controller import ServicoController
     
-    # --- Instâncias dos Controllers ---
+   
     user_ctrl = UserController()
     servico_ctrl = ServicoController()
 
-    # --- Chave Secreta (deve vir do config.py no futuro) ---
+    
     SECRET_KEY = "troque-por-uma-frase-muito-longa-e-segura-depois"
     
-    # ... o resto do arquivo continua exatamente igual ...
-    
-    # --- Decorator de Autenticação (Ponto Extra) ---
+   
     def login_required(fn):
         def wrapper(*args, **kwargs):
             user_id = request.get_cookie("user_id", secret=SECRET_KEY)
@@ -36,12 +31,12 @@ def create_app():
             redirect("/login")
         return wrapper
 
-    # --- Rotas Estáticas ---
+  
     @app.route('/static/<filepath:path>')
     def server_static(filepath):
         return static_file(filepath, root='./static')
 
-    # --- Rotas de Autenticação ---
+   
     @app.route('/login', method='GET')
     def login_page(): return user_ctrl.login()
 
@@ -58,7 +53,7 @@ def create_app():
     @login_required
     def do_logout(**kwargs): return user_ctrl.logout()
 
-    # --- Rota Principal (Página Inicial Pública) ---
+   
     from models.servico import Servico
     from models.usuario import Usuario
     @app.route('/')
@@ -68,9 +63,7 @@ def create_app():
         usuario = Usuario.find_by_id(int(user_id)) if user_id else None
         return template('home.tpl', servicos=servicos, usuario=usuario)
 
-# Em app.py, substitua a seção de rotas de serviços por esta:
 
-    # --- ROTAS DE SERVIÇOS (PROTEGIDAS) ---
     @app.route('/servicos/meus')
     @login_required
     def meus_servicos(user_id): 
@@ -101,5 +94,4 @@ def create_app():
     def deletar_usuario_self(user_id):
         return user_ctrl.delete_self(user_id)
 
-    # --- Retorna a aplicação configurada ---
     return app
