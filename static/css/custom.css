@@ -1,0 +1,96 @@
+/* --- Estilos Gerais --- */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa; /* Fundo cinza bem claro */
+}
+
+/* --- Cabeçalho --- */
+.main-header .navbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.logo img{
+    width: 35px;
+    height: auto;
+}
+
+.logo span {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #212529; /* Preto */
+}
+
+/* --- Seção Hero --- */
+.hero-section {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/logo2.jpeg');
+    color: #ffffff;
+    height: 45%;
+    padding: 6rem 0;
+    text-align: center;
+    background-size: cover; 
+    background-position: center center;
+    background-attachment: fixed;
+}
+
+.hero-section h1 {
+    font-weight: 700;
+    font-size: 3.5rem;
+}
+
+.hero-section .lead {
+    max-width: 600px;
+    margin: 1rem auto 2rem auto;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.cta-button {
+    padding: 0.8rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+/* --- ESTILOS PARA SEÇÃO DE SERVIÇOS COM FUNDO ESCURO --- */
+
+
+.dark-section {
+    background-color: #121212; 
+    color: #ffffff; 
+    padding: 5rem 0; 
+}
+
+
+.dark-section h2 {
+    color: #ffffff;
+}
+
+/* Alvo: A linha de separação abaixo do título */
+#servicos hr {
+    border-top: 3px solid #6f42c1; 
+    opacity: 1;
+}
+
+/* [OPCIONAL] - Deixa os cards com um tema escuro também, fica mais elegante */
+.service-card {
+    background-color: #1e1e1e; 
+    border: 1px solid #3a3a3a; 
+}
+
+.service-card .card-title {
+    color: #ffffff; 
+}
+
+.service-card .card-text.text-muted {
+    color: #a0a0a0 !important; 
+}
+
+.service-card .price {
+    color: #20c997; 
+}
+
+/* --- Rodapé --- */
+.footer {
+    background-color: #ffffff;
+    border-top: 1px solid #dee2e6;
+}
