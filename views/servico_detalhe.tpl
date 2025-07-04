@@ -8,7 +8,11 @@
                 <div class="card bg-dark text-light border-secondary">
                     
                     <div class="card-header p-4">
-                        <h1 class="h3 mb-0">{{servico.titulo}}</h1>
+                        <h1 class="h3 mb-1">{{servico.titulo}}</h1>
+                        <p class="mb-0 text-white-50">
+                            Oferecido por: 
+                            <a href="/freelancer/{{freelancer.id}}" class="link-light fw-bold">{{freelancer.nome}}</a>
+                        </p>
                     </div>
                     
                     <div class="card-body p-4">

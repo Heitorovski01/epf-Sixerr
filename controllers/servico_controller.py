@@ -83,4 +83,19 @@ class ServicoController:
        
         return template('servico_detalhe.tpl', servico=servico, usuario=usuario, request=request)
     
+    def show_service_details(self, servico_id, user_id=None):
+        servico = Servico.find_by_id(servico_id)
+        if not servico: return "Serviço não encontrado!"
+
+        # A linha mais importante: buscar o freelancer dono do serviço
+        freelancer = Usuario.find_by_id(servico.freelancer_id)
+        
+        usuario_logado = Usuario.find_by_id(user_id) if user_id else None
+            
+        return template('servico_detalhe.tpl', 
+                        servico=servico, 
+                        freelancer=freelancer, # Passa o freelancer para a view
+                        usuario=usuario_logado, 
+                        request=request)
+    
     

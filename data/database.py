@@ -60,6 +60,8 @@ def init_db():
             bio TEXT,
             habilidades TEXT,
             portfolio_url TEXT,
+            telefone TEXT,
+            cidade TEXT,
             FOREIGN KEY (usuario_id) REFERENCES usuarios (id) ON DELETE CASCADE
         );
     ''')

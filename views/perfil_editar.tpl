@@ -23,6 +23,14 @@
                                 <label for="portfolio_url" class="form-label">Link para seu Portfólio</label>
                                 <input type="url" class="form-control form-control-dark" id="portfolio_url" name="portfolio_url" value="{{usuario.portfolio_url}}">
                             </div>
+                            <div class="mb-3">
+                                <label for="telefone" class="form-label">Telefone de Contato (Opcional)</label>
+                                <input type="tel" class="form-control form-control-dark" id="telefone" name="telefone" value="{{usuario.telefone or ''}}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="cidade" class="form-label">Cidade / Localização (Opcional)</label>
+                                <input type="text" class="form-control form-control-dark" id="cidade" name="cidade" value="{{usuario.cidade or ''}}">
+                            </div>
 
                             <hr class="my-4 border-secondary">
 

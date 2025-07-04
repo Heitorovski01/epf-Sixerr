@@ -33,6 +33,7 @@ class Usuario:
         return self
 
     @classmethod
+    @classmethod
     def _find(cls, column: str, value):
         """Método privado para encontrar um utilizador por uma coluna específica."""
         from models.freelancer import Freelancer
@@ -41,9 +42,9 @@ class Usuario:
         conn = get_db_connection()
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
-        
+
         query = f"""
-            SELECT u.*, p.bio, p.habilidades, p.portfolio_url 
+            SELECT u.*, p.bio, p.habilidades, p.portfolio_url, p.telefone, p.cidade 
             FROM usuarios u
             LEFT JOIN freelancer_perfis p ON u.id = p.usuario_id
             WHERE u.{column} = ?
@@ -56,10 +57,12 @@ class Usuario:
 
         if user_data['tipo'] == 'freelancer':
             user = Freelancer(nome=user_data['nome'], email=user_data['email'], id=user_data['id'],
-                              bio=user_data['bio'], habilidades=user_data['habilidades'], 
-                              portfolio_url=user_data['portfolio_url'], saldo=user_data['saldo'])
+                              saldo=user_data['saldo'], bio=user_data['bio'], 
+                              habilidades=user_data['habilidades'], portfolio_url=user_data['portfolio_url'],
+                              telefone=user_data['telefone'], cidade=user_data['cidade'])
         else:
-            user = Cliente(nome=user_data['nome'], email=user_data['email'], id=user_data['id'], saldo=user_data['saldo'])
+            user = Cliente(nome=user_data['nome'], email=user_data['email'], id=user_data['id'],
+                           saldo=user_data['saldo'])
         
         user._senha_hash = user_data['senha_hash']
         return user

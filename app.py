@@ -171,4 +171,8 @@ def create_app():
             return redirect('/')
         return user_ctrl.show_my_orders(user_id)
 
+    @app.route('/freelancer/<freelancer_id:int>')
+    def perfil_publico_freelancer(freelancer_id):
+        return user_ctrl.show_public_profile(freelancer_id)
+
     return app

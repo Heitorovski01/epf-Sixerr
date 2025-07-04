@@ -53,6 +53,8 @@ class UserController:
             usuario.bio = request.forms.get('bio')
             usuario.habilidades = request.forms.get('habilidades')
             usuario.portfolio_url = request.forms.get('portfolio_url')
+            usuario.telefone = request.forms.get('telefone')
+            usuario.cidade = request.forms.get('cidade')
             usuario.save()
         return True
     
@@ -98,3 +100,20 @@ class UserController:
         pedidos = Pedido.find_by_cliente(user_id)
         
         return template('meus_pedidos.tpl', usuario=usuario, pedidos=pedidos)
+    def show_public_profile(self, freelancer_id):
+        
+        freelancer = Usuario.find_by_id(freelancer_id)
+        
+        if not freelancer or freelancer.tipo != 'freelancer':
+            return template("simple_message.tpl", message="Perfil de freelancer não encontrado.")
+
+        from models.servico import Servico
+        servicos_do_freelancer = Servico.find_by_freelancer_id(freelancer.id)
+
+        user_id = request.get_cookie("user_id", secret="uma-chave-secreta-muito-forte-e-dificil")
+        usuario_logado = Usuario.find_by_id(user_id) if user_id else None
+
+        return template('perfil_publico.tpl', 
+                        freelancer=freelancer, 
+                        servicos=servicos_do_freelancer,
+                        usuario=usuario_logado)

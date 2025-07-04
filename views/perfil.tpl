@@ -8,7 +8,6 @@
                 <div class="card bg-dark text-light border-secondary">
                     <div class="card-header p-4 border-bottom border-secondary d-flex justify-content-between align-items-center">
                         <h1 class="h4 mb-0">Meu Perfil</h1>
-                        % # Mostra o botão de editar apenas para freelancers
                         % if usuario.tipo == 'freelancer':
                         <a href="/perfil/editar" class="btn btn-outline-light btn-sm">Editar Perfil</a>
                         % end
@@ -20,7 +19,6 @@
 
                         <hr class="my-4 border-secondary">
 
-                        % # Esta seção só aparece se o utilizador for do tipo 'freelancer'
                         % if usuario.tipo == 'freelancer':
                             <h5 class="mb-3">Perfil de Freelancer</h5>
                             
@@ -36,6 +34,13 @@
                             % else:
                                 <p class="text-white-50">Nenhum link de portfólio fornecido.</p>
                             % end
+
+                            <h5 class="mt-4 mb-3">Informações de Contato</h5>
+                            <h6>Localização:</h6>
+                            <p class="text-white-50">{{ usuario.cidade if usuario.cidade else 'Não informada.' }}</p>
+                            
+                            <h6>Telefone:</h6>
+                            <p class="text-white-50">{{ usuario.telefone if usuario.telefone else 'Não informado.' }}</p>
                         % end
 
                     </div>
