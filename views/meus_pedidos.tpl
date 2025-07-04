@@ -13,13 +13,14 @@
                             <tr>
                                 <th class="px-4 py-3">Serviço</th>
                                 <th class="px-4 py-3">Data da Contratação</th>
-                                <th class="px-4 py-3 text-end">Valor Pago</th>
+                                <th class="px-4 py-3">Valor Pago</th>
+                                <th class="px-4 py-3 text-end">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             % if not pedidos:
                             <tr>
-                                <td colspan="3" class="text-center text-muted py-5">
+                                <td colspan="4" class="text-center text-muted py-5">
                                     Você ainda não contratou nenhum serviço.
                                 </td>
                             </tr>
@@ -28,7 +29,10 @@
                                 <tr>
                                     <td class="px-4">{{pedido['servico_titulo']}}</td>
                                     <td class="px-4">{{pedido['data_contratacao']}}</td>
-                                    <td class="px-4 text-end">R$ {{'%.2f' % pedido['preco_pago']}}</td>
+                                    <td class="px-4">R$ {{'%.2f' % pedido['preco_pago']}}</td>
+                                    <td class="px-4 text-end">
+                                        <a href="/freelancer/{{pedido['freelancer_id']}}" class="btn btn-sm btn-outline-light">Ver Perfil do Freelancer</a>
+                                    </td>
                                 </tr>
                                 % end
                             % end
@@ -39,8 +43,3 @@
         </div>
     </div>
 </div>
-<footer class="footer mt-auto py-3">
-        <div class="container text-center">
-            <span class="text-light">&copy; 2025 Sixerr. Todos os direitos reservados</span>
-        </div>
-</footer>

@@ -26,9 +26,10 @@ class Pedido:
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
         
-        # Usamos JOIN para buscar também o título do serviço
+        # --- A ALTERAÇÃO ESTÁ NA QUERY ABAIXO ---
+        # Adicionamos 's.freelancer_id' à lista de colunas que estamos a buscar
         cursor.execute("""
-            SELECT p.*, s.titulo as servico_titulo
+            SELECT p.*, s.titulo as servico_titulo, s.freelancer_id
             FROM pedidos p
             JOIN servicos s ON p.servico_id = s.id
             WHERE p.cliente_id = ?

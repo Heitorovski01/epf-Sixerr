@@ -14,7 +14,7 @@
 
 <div class="dark-section">
     <div class="container py-5">
-        <h2 class="text-center mb-5" id="servicos">Serviços em Destaque</h2>
+        <h2 class="text-center mb-5" id="servicos">Serviços</h2>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             % if not servicos:
                 <div class="col-12">
