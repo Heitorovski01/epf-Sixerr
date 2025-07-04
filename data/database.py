@@ -5,17 +5,14 @@ import sqlite3
 DB_NAME = 'data/marketplace.sqlite'
 
 def get_db_connection():
-    """Cria e retorna uma conexão com o banco de dados."""
     conn = sqlite3.connect(DB_NAME)
     return conn
 
 def init_db():
-    """Inicializa o banco de dados, criando as tabelas se elas não existirem."""
     print("--- EXECUTANDO init_db() para criar tabelas... ---")
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    # Tabela de Usuários
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS usuarios (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,7 +24,6 @@ def init_db():
         );
     ''')
 
-    # Tabela de Serviços
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS servicos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -39,7 +35,6 @@ def init_db():
         );
     ''')
 
-    # Tabela para registar os serviços contratados (pedidos)
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS pedidos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -52,7 +47,6 @@ def init_db():
         );
     ''')
 
-    # --- TABELA CRÍTICA QUE ESTAVA A FALTAR ---
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS freelancer_perfis (
             id INTEGER PRIMARY KEY,
