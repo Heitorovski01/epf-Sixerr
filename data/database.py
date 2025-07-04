@@ -39,6 +39,19 @@ def init_db():
         );
     ''')
 
+    # Tabela para registar os serviços contratados (pedidos)
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS pedidos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            data_contratacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            preco_pago REAL NOT NULL,
+            cliente_id INTEGER NOT NULL,
+            servico_id INTEGER NOT NULL,
+            FOREIGN KEY (cliente_id) REFERENCES usuarios (id),
+            FOREIGN KEY (servico_id) REFERENCES servicos (id)
+        );
+    ''')
+
     # --- TABELA CRÍTICA QUE ESTAVA A FALTAR ---
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS freelancer_perfis (

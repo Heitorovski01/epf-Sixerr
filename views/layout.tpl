@@ -39,6 +39,9 @@
                                     % if usuario.tipo == 'freelancer':
                                     <li><a class="dropdown-item" href="/servicos/meus">Meus Serviços</a></li>
                                     % end
+                                    % if usuario.tipo == 'cliente':
+                                    <li><a class="dropdown-item" href="/meus-pedidos">Meus Pedidos</a></li>
+                                    % end
                                     <li>
                                         <a class="dropdown-item" href="/carteira">
                                             Minha Carteira <span class="badge bg-success">R$ {{'%.2f' % usuario.saldo}}</span>

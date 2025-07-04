@@ -162,4 +162,13 @@ def create_app():
         
         return servico_ctrl.contratar_servico(servico_id, user_id)
 
+    @app.route('/meus-pedidos')
+    @login_required
+    def meus_pedidos(user_id):
+        # Verificação para garantir que só clientes acedam
+        cliente = Usuario.find_by_id(user_id)
+        if cliente.tipo != 'cliente':
+            return redirect('/')
+        return user_ctrl.show_my_orders(user_id)
+
     return app

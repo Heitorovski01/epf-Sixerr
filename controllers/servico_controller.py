@@ -2,7 +2,8 @@
 
 from bottle import request, redirect, template
 from models.servico import Servico
-from models.usuario import Usuario # <-- 1. Importamos a classe Usuario
+from models.usuario import Usuario
+from models.pedido import Pedido
 
 class ServicoController:
     def list_my_services(self, user_id):
@@ -41,6 +42,35 @@ class ServicoController:
         Servico.delete_by_id(servico_id)
         redirect('/servicos/meus')
 
+    def contratar_servico(self, servico_id, cliente_id):
+        from models.pedido import Pedido
+        from models.usuario import Usuario
+        from models.servico import Servico
+        
+        cliente = Usuario.find_by_id(cliente_id)
+
+        servico = Servico.find_by_id(servico_id)
+        
+        if not servico:
+            return "Erro: Serviço não encontrado."
+
+        freelancer = Usuario.find_by_id(servico.freelancer_id)
+
+        if cliente.saldo < servico.preco:
+            redirect(f"/servicos/detalhe/{servico_id}?error=Saldo insuficiente!")
+            return 
+
+        cliente.saldo -= servico.preco
+        freelancer.saldo += servico.preco
+
+        novo_pedido = Pedido(preco_pago=servico.preco, cliente_id=cliente.id, servico_id=servico.id)
+        novo_pedido.save()
+
+        cliente.atualiza_saldo()
+        freelancer.atualiza_saldo()
+
+        redirect(f"/meus-pedidos?success=Serviço '{servico.titulo}' contratado com sucesso!")
+
     def show_service_details(self, servico_id, user_id=None):
 
         servico = Servico.find_by_id(servico_id)
@@ -53,26 +83,4 @@ class ServicoController:
        
         return template('servico_detalhe.tpl', servico=servico, usuario=usuario, request=request)
     
-    def contratar_servico(self, servico_id, cliente_id):
-        
-        cliente = Usuario.find_by_id(cliente_id)
-        servico = Servico.find_by_id(servico_id)
-        
-        if not servico:
-           
-            return "Erro: Serviço não encontrado."
-
-        freelancer = Usuario.find_by_id(servico.freelancer_id)
-
-        
-        if cliente.saldo < servico.preco:
-           
-            redirect(f"/servicos/detalhe/{servico_id}?error=Saldo insuficiente!")
-
-        cliente.saldo -= servico.preco
-        freelancer.saldo += servico.preco
-
-        cliente.atualiza_saldo()
-        freelancer.atualiza_saldo()
-
-        redirect(f"/carteira?success=Serviço '{servico.titulo}' contratado com sucesso!")
+    
