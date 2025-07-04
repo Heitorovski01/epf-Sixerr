@@ -5,9 +5,10 @@ import hashlib
 from data.database import get_db_connection
 
 class Usuario:
-    def __init__(self, nome: str, email: str, tipo: str, id: int = None):
+    def __init__(self, nome: str, email: str, tipo: str, id: int = None, saldo: float = 0.0):
         self.id, self.nome, self.email, self.tipo = id, nome, email, tipo
         self._senha_hash = None
+        self.saldo = saldo
 
     def set_senha(self, senha: str):
         self._senha_hash = hashlib.sha256(senha.encode()).hexdigest()
@@ -41,8 +42,6 @@ class Usuario:
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
         
-        # Usamos um placeholder (?) para segurança, mesmo para o nome da coluna
-        # Nota: Esta forma de construir a query é segura porque 'column' vem do nosso próprio código.
         query = f"""
             SELECT u.*, p.bio, p.habilidades, p.portfolio_url 
             FROM usuarios u
@@ -58,9 +57,9 @@ class Usuario:
         if user_data['tipo'] == 'freelancer':
             user = Freelancer(nome=user_data['nome'], email=user_data['email'], id=user_data['id'],
                               bio=user_data['bio'], habilidades=user_data['habilidades'], 
-                              portfolio_url=user_data['portfolio_url'])
+                              portfolio_url=user_data['portfolio_url'], saldo=user_data['saldo'])
         else:
-            user = Cliente(nome=user_data['nome'], email=user_data['email'], id=user_data['id'])
+            user = Cliente(nome=user_data['nome'], email=user_data['email'], id=user_data['id'], saldo=user_data['saldo'])
         
         user._senha_hash = user_data['senha_hash']
         return user
@@ -71,5 +70,11 @@ class Usuario:
 
     @classmethod
     def find_by_email(cls, email: str):
-        # AGORA ESTE MÉTODO CHAMA A LÓGICA CORRETA
         return cls._find('email', email)
+    
+    def atualiza_saldo(self):
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("UPDATE usuarios SET saldo = ? WHERE id = ?", (self.saldo, self.id))
+        conn.commit()
+        conn.close()

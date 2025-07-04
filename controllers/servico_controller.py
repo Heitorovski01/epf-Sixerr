@@ -29,9 +29,9 @@ class ServicoController:
         descricao = request.forms.get('descricao')
         preco = request.forms.get('preco')
         
-        if servico_id: # Editando
+        if servico_id:
             servico = Servico(id=int(servico_id), titulo=titulo, descricao=descricao, preco=float(preco), freelancer_id=user_id)
-        else: # Criando
+        else:
             servico = Servico(titulo=titulo, descricao=descricao, preco=float(preco), freelancer_id=user_id)
         
         servico.save()
@@ -41,18 +41,38 @@ class ServicoController:
         Servico.delete_by_id(servico_id)
         redirect('/servicos/meus')
 
-        # Adicione este método à sua classe ServicoController
-
     def show_service_details(self, servico_id, user_id=None):
-        # Usamos o model para encontrar o serviço pelo ID
+
         servico = Servico.find_by_id(servico_id)
-        
-        # Buscamos o usuário logado para passar para o layout
+
         usuario = Usuario.find_by_id(user_id) if user_id else None
         
-        # Se o serviço não for encontrado, podemos mostrar um erro
         if not servico:
             return "Serviço não encontrado!"
             
-        # Renderiza o novo template com os dados
-        return template('servico_detalhe.tpl', servico=servico, usuario=usuario)
+       
+        return template('servico_detalhe.tpl', servico=servico, usuario=usuario, request=request)
+    
+    def contratar_servico(self, servico_id, cliente_id):
+        
+        cliente = Usuario.find_by_id(cliente_id)
+        servico = Servico.find_by_id(servico_id)
+        
+        if not servico:
+           
+            return "Erro: Serviço não encontrado."
+
+        freelancer = Usuario.find_by_id(servico.freelancer_id)
+
+        
+        if cliente.saldo < servico.preco:
+           
+            redirect(f"/servicos/detalhe/{servico_id}?error=Saldo insuficiente!")
+
+        cliente.saldo -= servico.preco
+        freelancer.saldo += servico.preco
+
+        cliente.atualiza_saldo()
+        freelancer.atualiza_saldo()
+
+        redirect(f"/carteira?success=Serviço '{servico.titulo}' contratado com sucesso!")

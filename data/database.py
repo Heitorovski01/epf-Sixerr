@@ -22,7 +22,8 @@ def init_db():
             nome TEXT NOT NULL,
             email TEXT NOT NULL UNIQUE,
             senha_hash TEXT NOT NULL,
-            tipo TEXT NOT NULL CHECK(tipo IN ('freelancer', 'cliente'))
+            tipo TEXT NOT NULL CHECK(tipo IN ('freelancer', 'cliente')),
+            saldo REAL NOT NULL DEFAULT 0.0
         );
     ''')
 

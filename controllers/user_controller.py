@@ -10,7 +10,6 @@ class UserController:
     def register(self): return template('register.tpl', error=None)
 
     def do_register(self):
-        # (O seu código de do_register continua igual, pois ele não mexe com cookies)
         nome, email, senha, tipo = request.forms.get('nome'), request.forms.get('email'), request.forms.get('senha'), request.forms.get('tipo_usuario')
         if not all([nome, email, senha, tipo]): return template('register.tpl', error="Todos os campos são obrigatórios.")
         if Usuario.find_by_email(email): return template('register.tpl', error="Este e-mail já está em uso.")
@@ -92,3 +91,39 @@ class UserController:
         Usuario.delete_by_id(user_id)
         response.delete_cookie("user_id", path='/')
         return True
+    
+    def show_wallet(self, user_id):
+        usuario = Usuario.find_by_id(user_id)
+        return template('carteira.tpl', usuario=usuario, success=None, error=None)
+
+    def process_transaction(self, user_id):
+        usuario = Usuario.find_by_id(user_id)
+        
+        # Pega os valores do formulário
+        deposito_str = request.forms.get('deposito')
+        saque_str = request.forms.get('saque')
+
+        try:
+            if deposito_str:
+                valor = float(deposito_str)
+                if valor <= 0:
+                    raise ValueError("O valor do depósito deve ser positivo.")
+                usuario.saldo += valor
+                usuario.atualiza_saldo()
+                return template('carteira.tpl', usuario=usuario, success=f"Depósito de R$ {valor:.2f} realizado com sucesso!", error=None)
+
+            if saque_str: 
+                valor = float(saque_str)
+                if valor <= 0:
+                    raise ValueError("O valor do saque deve ser positivo.")
+                if valor > usuario.saldo:
+                    raise ValueError("Saldo insuficiente para realizar o saque.")
+                usuario.saldo -= valor
+                usuario.atualiza_saldo()
+                return template('carteira.tpl', usuario=usuario, success=f"Saque de R$ {valor:.2f} realizado com sucesso!", error=None)
+        
+        except ValueError as e:
+            return template('carteira.tpl', usuario=usuario, success=None, error=str(e))
+
+        
+        redirect('/carteira')

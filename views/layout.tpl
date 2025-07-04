@@ -39,6 +39,11 @@
                                     % if usuario.tipo == 'freelancer':
                                     <li><a class="dropdown-item" href="/servicos/meus">Meus Serviços</a></li>
                                     % end
+                                    <li>
+                                        <a class="dropdown-item" href="/carteira">
+                                            Minha Carteira <span class="badge bg-success">R$ {{'%.2f' % usuario.saldo}}</span>
+                                        </a>
+                                    </li>
                                     <li><a class="dropdown-item" href="/perfil">Meu Perfil</a></li>
                                     <li><a class="dropdown-item" href="/usuario/deletar" onclick="return confirm('Tem certeza?');">Excluir Conta</a></li>
                                     <li><hr class="dropdown-divider"></li>

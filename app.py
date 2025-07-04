@@ -139,9 +139,27 @@ def create_app():
     @login_required
     def salvar_servico(user_id): return servico_ctrl.save_service(user_id)
 
+    @app.route('/carteira', method='GET')
+    @login_required
+    def carteira_page(user_id):
+        return user_ctrl.show_wallet(user_id)
+
+    @app.route('/carteira', method='POST')
+    @login_required
+    def processar_transacao(user_id):
+        return user_ctrl.process_transaction(user_id)
+
     @app.route('/servicos/deletar/<servico_id:int>')
     @login_required
     def deletar_servico(servico_id, **kwargs): return servico_ctrl.delete_service(servico_id)
+    
+    @app.route('/servicos/contratar/<servico_id:int>', method='POST')
+    @login_required
+    def contratar(servico_id, user_id):
+        cliente = Usuario.find_by_id(user_id)
+        if cliente.tipo != 'cliente':
+            return redirect(f"/servicos/detalhe/{servico_id}?error=Apenas clientes podem contratar serviços.")
+        
+        return servico_ctrl.contratar_servico(servico_id, user_id)
 
-    # --- Retorna a aplicação configurada ---
     return app
