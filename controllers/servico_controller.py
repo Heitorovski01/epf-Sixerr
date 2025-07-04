@@ -40,3 +40,19 @@ class ServicoController:
     def delete_service(self, servico_id):
         Servico.delete_by_id(servico_id)
         redirect('/servicos/meus')
+
+        # Adicione este método à sua classe ServicoController
+
+    def show_service_details(self, servico_id, user_id=None):
+        # Usamos o model para encontrar o serviço pelo ID
+        servico = Servico.find_by_id(servico_id)
+        
+        # Buscamos o usuário logado para passar para o layout
+        usuario = Usuario.find_by_id(user_id) if user_id else None
+        
+        # Se o serviço não for encontrado, podemos mostrar um erro
+        if not servico:
+            return "Serviço não encontrado!"
+            
+        # Renderiza o novo template com os dados
+        return template('servico_detalhe.tpl', servico=servico, usuario=usuario)

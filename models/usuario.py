@@ -1,4 +1,4 @@
-# models/usuario.py (versão corrigida)
+# models/usuario.py (Versão Definitiva com find_by_email corrigido)
 
 import sqlite3
 import hashlib
@@ -13,9 +13,11 @@ class Usuario:
         self._senha_hash = hashlib.sha256(senha.encode()).hexdigest()
 
     def check_senha(self, senha: str) -> bool:
-        return self._senha_hash == hashlib.sha256(senha.encode()).hexdigest() if self._senha_hash else False
-    
+        hash_da_senha_digitada = hashlib.sha256(senha.encode()).hexdigest()
+        return self._senha_hash == hash_da_senha_digitada
+
     def save(self):
+        # Este método será sobrescrito pela classe filha (Freelancer) se necessário
         conn = get_db_connection()
         cursor = conn.cursor()
         if self.id is None:
@@ -23,58 +25,51 @@ class Usuario:
                            (self.nome, self.email, self._senha_hash, self.tipo))
             self.id = cursor.lastrowid
         else:
-            cursor.execute("UPDATE usuarios SET nome=?, email=?, senha_hash=?, tipo=? WHERE id=?",
-                           (self.nome, self.email, self._senha_hash, self.tipo, self.id))
+            cursor.execute("UPDATE usuarios SET nome=?, email=?, senha_hash=? WHERE id=?",
+                           (self.nome, self.email, self._senha_hash, self.id))
         conn.commit()
         conn.close()
         return self
 
     @classmethod
-    def find_by_email(cls, email: str):
-        # --- CORREÇÃO AQUI ---
-        # A importação foi movida para dentro do método
+    def _find(cls, column: str, value):
+        """Método privado para encontrar um utilizador por uma coluna específica."""
         from models.freelancer import Freelancer
         from models.cliente import Cliente
 
         conn = get_db_connection()
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM usuarios WHERE email = ?", (email,))
+        
+        # Usamos um placeholder (?) para segurança, mesmo para o nome da coluna
+        # Nota: Esta forma de construir a query é segura porque 'column' vem do nosso próprio código.
+        query = f"""
+            SELECT u.*, p.bio, p.habilidades, p.portfolio_url 
+            FROM usuarios u
+            LEFT JOIN freelancer_perfis p ON u.id = p.usuario_id
+            WHERE u.{column} = ?
+        """
+        cursor.execute(query, (value,))
+        
         user_data = cursor.fetchone()
         conn.close()
         if not user_data: return None
+
+        if user_data['tipo'] == 'freelancer':
+            user = Freelancer(nome=user_data['nome'], email=user_data['email'], id=user_data['id'],
+                              bio=user_data['bio'], habilidades=user_data['habilidades'], 
+                              portfolio_url=user_data['portfolio_url'])
+        else:
+            user = Cliente(nome=user_data['nome'], email=user_data['email'], id=user_data['id'])
         
-        UserClass = Freelancer if user_data['tipo'] == 'freelancer' else Cliente
-        
-        user = UserClass(nome=user_data['nome'], email=user_data['email'], id=user_data['id'])
         user._senha_hash = user_data['senha_hash']
         return user
-    
+
     @classmethod
     def find_by_id(cls, user_id: int):
-        # --- CORREÇÃO AQUI ---
-        # A importação foi movida para dentro do método
-        from models.freelancer import Freelancer
-        from models.cliente import Cliente
+        return cls._find('id', user_id)
 
-        conn = get_db_connection()
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM usuarios WHERE id = ?", (user_id,))
-        user_data = cursor.fetchone()
-        conn.close()
-        if not user_data: return None
-
-        UserClass = Freelancer if user_data['tipo'] == 'freelancer' else Cliente
-        user = UserClass(nome=user_data['nome'], email=user_data['email'], id=user_data['id'])
-        user._senha_hash = user_data['senha_hash']
-        return user
-    
-    @staticmethod
-    def delete_by_id(user_id: int):
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        
-        cursor.execute("DELETE FROM usuarios WHERE id = ?", (user_id,))
-        conn.commit()
-        conn.close()
+    @classmethod
+    def find_by_email(cls, email: str):
+        # AGORA ESTE MÉTODO CHAMA A LÓGICA CORRETA
+        return cls._find('email', email)
