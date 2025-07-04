@@ -1,4 +1,3 @@
-# controllers/user_controller.py (Versão com Indentação Corrigida)
 from bottle import request, template, response, redirect
 from models.usuario import Usuario
 from models.freelancer import Freelancer

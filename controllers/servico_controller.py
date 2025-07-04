@@ -1,5 +1,3 @@
-# controllers/servico_controller.py (versão corrigida)
-
 from bottle import request, redirect, template
 from models.servico import Servico
 from models.usuario import Usuario
@@ -7,19 +5,15 @@ from models.pedido import Pedido
 
 class ServicoController:
     def list_my_services(self, user_id):
-        # 2. Além dos serviços, buscamos o objeto do usuário
         usuario = Usuario.find_by_id(user_id)
         servicos = Servico.find_by_freelancer_id(user_id)
-        # 3. Passamos AMBOS para o template
         return template('meus_servicos.tpl', servicos=servicos, usuario=usuario)
 
     def add_service_form(self, user_id):
-        # Corrigido aqui também
         usuario = Usuario.find_by_id(user_id)
         return template('servico_form.tpl', servico=None, error=None, usuario=usuario)
 
     def edit_service_form(self, servico_id, user_id):
-        # Corrigido aqui também
         usuario = Usuario.find_by_id(user_id)
         servico = Servico.find_by_id(servico_id)
         return template('servico_form.tpl', servico=servico, error=None, usuario=usuario)
@@ -87,14 +81,13 @@ class ServicoController:
         servico = Servico.find_by_id(servico_id)
         if not servico: return "Serviço não encontrado!"
 
-        # A linha mais importante: buscar o freelancer dono do serviço
         freelancer = Usuario.find_by_id(servico.freelancer_id)
         
         usuario_logado = Usuario.find_by_id(user_id) if user_id else None
             
         return template('servico_detalhe.tpl', 
                         servico=servico, 
-                        freelancer=freelancer, # Passa o freelancer para a view
+                        freelancer=freelancer,
                         usuario=usuario_logado, 
                         request=request)
     

@@ -7,7 +7,6 @@ class BaseController:
 
 
     def _setup_base_routes(self):
-        """Configura rotas básicas comuns a todos os controllers"""
         self.app.route('/', method='GET', callback=self.show_homepage)
         self.app.route('/helper', method=['GET'], callback=self.helper)
 
@@ -16,7 +15,6 @@ class BaseController:
 
 
     def home_redirect(self):
-        """Redireciona a rota raiz para /users"""
         return self.redirect('/users')
 
 
@@ -25,12 +23,10 @@ class BaseController:
 
 
     def serve_static(self, filename):
-        """Serve arquivos estáticos da pasta static/"""
         return static_file(filename, root='./static')
 
 
     def render(self, template, **context):
-        """Método auxiliar para renderizar templates"""
         from bottle import template as render_template
         return render_template(template, **context)
 

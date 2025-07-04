@@ -1,5 +1,3 @@
-# data/database.py
-
 import sqlite3
 
 DB_NAME = 'data/marketplace.sqlite'
