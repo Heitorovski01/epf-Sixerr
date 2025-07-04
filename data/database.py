@@ -1,4 +1,5 @@
 # data/database.py
+
 import sqlite3
 
 DB_NAME = 'data/marketplace.sqlite'
@@ -10,8 +11,11 @@ def get_db_connection():
 
 def init_db():
     """Inicializa o banco de dados, criando as tabelas se elas não existirem."""
+    print("--- EXECUTANDO init_db() para criar tabelas... ---")
     conn = get_db_connection()
     cursor = conn.cursor()
+
+    # Tabela de Usuários
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS usuarios (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -21,6 +25,8 @@ def init_db():
             tipo TEXT NOT NULL CHECK(tipo IN ('freelancer', 'cliente'))
         );
     ''')
+
+    # Tabela de Serviços
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS servicos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,5 +37,19 @@ def init_db():
             FOREIGN KEY (freelancer_id) REFERENCES usuarios (id) ON DELETE CASCADE
         );
     ''')
+
+    # --- TABELA CRÍTICA QUE ESTAVA A FALTAR ---
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS freelancer_perfis (
+            id INTEGER PRIMARY KEY,
+            usuario_id INTEGER UNIQUE NOT NULL,
+            bio TEXT,
+            habilidades TEXT,
+            portfolio_url TEXT,
+            FOREIGN KEY (usuario_id) REFERENCES usuarios (id) ON DELETE CASCADE
+        );
+    ''')
+    print("--- Tabela 'freelancer_perfis' verificada/criada com sucesso. ---")
+
     conn.commit()
     conn.close()

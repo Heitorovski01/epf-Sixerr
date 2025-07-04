@@ -40,3 +40,25 @@ class UserController:
         response.delete_cookie("user_id", path='/')
     
         redirect('/')
+    
+    def edit_profile_form(self, user_id):
+        usuario = Usuario.find_by_id(user_id)
+        if usuario.tipo != 'freelancer':
+            return redirect('/perfil')
+        return template('perfil_editar.tpl', usuario=usuario)
+
+    def save_profile(self, user_id):
+        usuario = Usuario.find_by_id(user_id)
+
+        if usuario.tipo == 'freelancer':
+            usuario.bio = request.forms.get('bio')
+            usuario.habilidades = request.forms.get('habilidades')
+            usuario.portfolio_url = request.forms.get('portfolio_url')
+            usuario.save()
+
+        redirect('/perfil')
+    
+    def show_profile(self, user_id):
+        usuario = Usuario.find_by_id(user_id)
+        
+        return template('perfil.tpl', usuario=usuario)

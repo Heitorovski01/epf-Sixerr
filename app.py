@@ -74,6 +74,11 @@ def create_app():
     def novo_servico_form(user_id): 
         return servico_ctrl.add_service_form(user_id)
 
+    @app.route('/perfil')
+    @login_required
+    def perfil(user_id):
+        return user_ctrl.show_profile(user_id)
+
     @app.route('/servicos/editar/<servico_id:int>', method='GET')
     @login_required
     def editar_servico_form(servico_id, user_id): 
@@ -94,4 +99,14 @@ def create_app():
     def deletar_usuario_self(user_id):
         return user_ctrl.delete_self(user_id)
 
+    @app.route('/perfil/editar', method='GET')
+    @login_required
+    def editar_perfil_form(user_id):
+        return user_ctrl.edit_profile_form(user_id)
+
+    @app.route('/perfil/editar', method='POST')
+    @login_required
+    def salvar_perfil(user_id):
+        return user_ctrl.save_profile(user_id)
     return app
+    
