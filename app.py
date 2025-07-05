@@ -170,4 +170,9 @@ def create_app():
     def minhas_vendas(user_id):
         return user_ctrl.show_my_sales(user_id)
     
+    @app.route('/cliente/<cliente_id:int>')
+    @login_required
+    def perfil_publico_cliente(cliente_id, **kwargs):
+        return user_ctrl.show_public_client_profile(cliente_id)
+    
     return app

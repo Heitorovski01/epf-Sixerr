@@ -125,3 +125,16 @@ class UserController:
         usuario = Usuario.find_by_id(user_id)
         vendas = Pedido.find_by_freelancer(user_id)
         return template('minhas_vendas.tpl', usuario=usuario, vendas=vendas)
+
+    def show_public_client_profile(self, cliente_id):
+        cliente = Usuario.find_by_id(cliente_id)
+        
+        if not cliente or cliente.tipo != 'cliente':
+            return template("simple_message.tpl", message="Perfil de cliente não encontrado.")
+
+        user_id = request.get_cookie("user_id", secret="uma-chave-secreta-muito-forte-e-dificil")
+        usuario_logado = Usuario.find_by_id(user_id) if user_id else None
+
+        return template('perfil_cliente.tpl', 
+                        cliente=cliente,
+                        usuario=usuario_logado)

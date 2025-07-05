@@ -45,7 +45,7 @@ class Pedido:
         cursor = conn.cursor()
         
         cursor.execute("""
-            SELECT p.*, s.titulo as servico_titulo, c.nome as cliente_nome
+            SELECT p.*, s.titulo as servico_titulo, c.nome as cliente_nome, c.id as cliente_id
             FROM pedidos p
             JOIN servicos s ON p.servico_id = s.id
             JOIN usuarios c ON p.cliente_id = c.id

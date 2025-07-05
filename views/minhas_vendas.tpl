@@ -28,7 +28,11 @@
                                 % for venda in vendas:
                                 <tr>
                                     <td class="px-4">{{venda['servico_titulo']}}</td>
-                                    <td class="px-4">{{venda['cliente_nome']}}</td>
+                                    
+                                    <td class="px-4">
+                                        <a href="/cliente/{{venda['cliente_id']}}" class="link-light">{{venda['cliente_nome']}}</a>
+                                    </td>
+
                                     <td class="px-4">{{venda['data_contratacao']}}</td>
                                     <td class="px-4 text-end">R$ {{'%.2f' % venda['preco_pago']}}</td>
                                 </tr>
