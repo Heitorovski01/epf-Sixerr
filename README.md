@@ -146,8 +146,9 @@ A arquitetura Orientada a Objetos do projeto pode ser visualizada no seguinte di
 ![Diagrama de Classes](docs/diagrama_classes.png)
 
 ---
-
+```
 👥 Autores
 [Luiz Henrique Tomaz Moreira] - lht.unb@gmail.com
 
 [Heitor Pinheiro Gonçalves das Chagas] - heitorbsbdf@gmail.com
+```
