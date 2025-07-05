@@ -18,7 +18,10 @@ def init_db():
             email TEXT NOT NULL UNIQUE,
             senha_hash TEXT NOT NULL,
             tipo TEXT NOT NULL CHECK(tipo IN ('freelancer', 'cliente')),
-            saldo REAL NOT NULL DEFAULT 0.0
+            saldo REAL NOT NULL DEFAULT 0.0,
+            -- ADICIONANDO CAMPOS DE CONTATO PARA TODOS OS UTILIZADORES --
+            telefone TEXT,
+            cidade TEXT
         );
     ''')
 

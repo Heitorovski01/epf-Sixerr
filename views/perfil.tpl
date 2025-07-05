@@ -8,17 +8,18 @@
                 <div class="card bg-dark text-light border-secondary">
                     <div class="card-header p-4 border-bottom border-secondary d-flex justify-content-between align-items-center">
                         <h1 class="h4 mb-0">Meu Perfil</h1>
-                        % if usuario.tipo == 'freelancer':
+                        
                         <a href="/perfil/editar" class="btn btn-outline-light btn-sm">Editar Perfil</a>
-                        % end
+
                     </div>
                     <div class="card-body p-4">
                         
                         <h3>{{ usuario.nome }}</h3>
-                        <p class="text-muted">{{ usuario.email }}</p>
+                        <p class="text-white-50">{{ usuario.email }}</p>
 
                         <hr class="my-4 border-secondary">
 
+                        % # Mostra informações diferentes com base no tipo de utilizador
                         % if usuario.tipo == 'freelancer':
                             <h5 class="mb-3">Perfil de Freelancer</h5>
                             
@@ -34,14 +35,15 @@
                             % else:
                                 <p class="text-white-50">Nenhum link de portfólio fornecido.</p>
                             % end
-
-                            <h5 class="mt-4 mb-3">Informações de Contato</h5>
-                            <h6>Localização:</h6>
-                            <p class="text-white-50">{{ usuario.cidade if usuario.cidade else 'Não informada.' }}</p>
-                            
-                            <h6>Telefone:</h6>
-                            <p class="text-white-50">{{ usuario.telefone if usuario.telefone else 'Não informado.' }}</p>
                         % end
+
+                        % # Esta nova secção mostra os dados de contato para ambos
+                        <h5 class="mt-4 mb-3">Informações de Contato</h5>
+                        <h6>Localização:</h6>
+                        <p class="text-white-50">{{ usuario.cidade if usuario.cidade else 'Não informada.' }}</p>
+                        
+                        <h6>Telefone:</h6>
+                        <p class="text-white-50">{{ usuario.telefone if usuario.telefone else 'Não informado.' }}</p>
 
                     </div>
                 </div>
@@ -51,7 +53,7 @@
     </div>
 </div>
 <footer class="footer mt-auto py-3">
-        <div class="container text-center">
-            <span class="text-light">&copy; 2025 Sixerr. Todos os direitos reservados</span>
-        </div>
+    <div class="container text-center">
+        <span class="text-light">&copy; 2025 Sixerr. Todos os direitos reservados</span>
+    </div>
 </footer>

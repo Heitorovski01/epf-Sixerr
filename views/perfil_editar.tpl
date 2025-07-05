@@ -11,29 +11,27 @@
                     </div>
                     <div class="card-body p-4">
                         <form action="/perfil/editar" method="post">
-                            <div class="mb-3">
-                                <label for="habilidades" class="form-label">Suas Habilidades (separadas por vírgula)</label>
-                                <input type="text" class="form-control form-control-dark" id="habilidades" name="habilidades" value="{{usuario.habilidades}}">
-                            </div>
-                            <div class="mb-3">
-                                <label for="bio" class="form-label">Sua Biografia</label>
-                                <textarea class="form-control form-control-dark" id="bio" name="bio" rows="5">{{usuario.bio}}</textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="portfolio_url" class="form-label">Link para seu Portfólio</label>
-                                <input type="url" class="form-control form-control-dark" id="portfolio_url" name="portfolio_url" value="{{usuario.portfolio_url}}">
-                            </div>
-                            <div class="mb-3">
-                                <label for="telefone" class="form-label">Telefone de Contato (Opcional)</label>
-                                <input type="tel" class="form-control form-control-dark" id="telefone" name="telefone" value="{{usuario.telefone or ''}}">
-                            </div>
-                            <div class="mb-3">
-                                <label for="cidade" class="form-label">Cidade / Localização (Opcional)</label>
-                                <input type="text" class="form-control form-control-dark" id="cidade" name="cidade" value="{{usuario.cidade or ''}}">
-                            </div>
+                            
+                            % # Se for freelancer, mostra os campos de perfil de freelancer
+                            % if usuario.tipo == 'freelancer':
+                                <div class="mb-3">
+                                    <label for="cidade" class="form-label">Cidade / Localização</label>
+                                    <input type="text" class="form-control form-control-dark" id="cidade" name="cidade" value="{{usuario.cidade or ''}}">
+                                </div>
+                            % # Se for cliente, mostra os campos de contato do cliente
+                            % elif usuario.tipo == 'cliente':
+                                <h5 class="mb-3">Suas Informações de Contato</h5>
+                                <div class="mb-3">
+                                    <label for="telefone" class="form-label">Telefone de Contato</label>
+                                    <input type="tel" class="form-control form-control-dark" id="telefone" name="telefone" value="{{usuario.telefone or ''}}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cidade" class="form-label">Sua Cidade</label>
+                                    <input type="text" class="form-control form-control-dark" id="cidade" name="cidade" value="{{usuario.cidade or ''}}">
+                                </div>
+                            % end
 
                             <hr class="my-4 border-secondary">
-
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                 <a href="/perfil" class="btn btn-outline-secondary">Cancelar</a>
                                 <button type="submit" class="btn btn-primary">Salvar Alterações</button>

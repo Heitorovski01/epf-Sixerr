@@ -106,11 +106,13 @@ def create_app():
 
     @app.route('/perfil')
     @login_required
-    def perfil(user_id): return user_ctrl.show_profile(user_id)
+    def perfil(user_id):
+        return user_ctrl.show_profile(user_id)
 
     @app.route('/perfil/editar', method='GET')
     @login_required
-    def editar_perfil_form(user_id): return user_ctrl.edit_profile_form(user_id)
+    def editar_perfil_form(user_id):
+        return user_ctrl.edit_profile_form(user_id)
 
     @app.route('/perfil/editar', method='POST')
     @login_required
@@ -162,5 +164,10 @@ def create_app():
     @app.route('/servicos/deletar/<servico_id:int>')
     @role_required('freelancer')
     def deletar_servico(servico_id, **kwargs): return servico_ctrl.delete_service(servico_id)
+
+    @app.route('/minhas-vendas')
+    @role_required('freelancer')
+    def minhas_vendas(user_id):
+        return user_ctrl.show_my_sales(user_id)
     
     return app

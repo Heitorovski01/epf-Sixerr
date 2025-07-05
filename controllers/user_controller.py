@@ -35,27 +35,30 @@ class UserController:
     def logout(self):
         response.delete_cookie("user_id", path='/')
         return True
-    
+
     def show_profile(self, user_id):
         usuario = Usuario.find_by_id(user_id)
         return template('perfil.tpl', usuario=usuario)
 
     def edit_profile_form(self, user_id):
         usuario = Usuario.find_by_id(user_id)
-        if usuario.tipo != 'freelancer':
-            return redirect('/perfil')
         return template('perfil_editar.tpl', usuario=usuario)
 
     def save_profile(self, user_id):
         usuario = Usuario.find_by_id(user_id)
+
         if usuario.tipo == 'freelancer':
             usuario.bio = request.forms.get('bio')
             usuario.habilidades = request.forms.get('habilidades')
             usuario.portfolio_url = request.forms.get('portfolio_url')
             usuario.telefone = request.forms.get('telefone')
             usuario.cidade = request.forms.get('cidade')
-            usuario.save()
-        return True
+        
+        elif usuario.tipo == 'cliente':
+            usuario.telefone = request.forms.get('telefone')
+            usuario.cidade = request.forms.get('cidade')
+        
+        usuario.save()
     
     def delete_self(self, user_id):
         Usuario.delete_by_id(user_id)
@@ -116,3 +119,9 @@ class UserController:
                         freelancer=freelancer, 
                         servicos=servicos_do_freelancer,
                         usuario=usuario_logado)
+
+    def show_my_sales(self, user_id):
+        from models.pedido import Pedido
+        usuario = Usuario.find_by_id(user_id)
+        vendas = Pedido.find_by_freelancer(user_id)
+        return template('minhas_vendas.tpl', usuario=usuario, vendas=vendas)

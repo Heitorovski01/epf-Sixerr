@@ -5,10 +5,12 @@ import hashlib
 from data.database import get_db_connection
 
 class Usuario:
-    def __init__(self, nome: str, email: str, tipo: str, id: int = None, saldo: float = 0.0):
+    def __init__(self, nome: str, email: str, tipo: str, id: int = None, saldo: float = 0.0, telefone: str = None, cidade: str = None):
         self.id, self.nome, self.email, self.tipo = id, nome, email, tipo
-        self._senha_hash = None
         self.saldo = saldo
+        self.telefone = telefone 
+        self.cidade = cidade     
+        self._senha_hash = None
 
     def set_senha(self, senha: str):
         self._senha_hash = hashlib.sha256(senha.encode()).hexdigest()
@@ -26,8 +28,8 @@ class Usuario:
                            (self.nome, self.email, self._senha_hash, self.tipo))
             self.id = cursor.lastrowid
         else:
-            cursor.execute("UPDATE usuarios SET nome=?, email=?, senha_hash=? WHERE id=?",
-                           (self.nome, self.email, self._senha_hash, self.id))
+            cursor.execute("UPDATE usuarios SET nome=?, email=?, senha_hash=?, saldo=?, telefone=?, cidade=? WHERE id=?",
+                           (self.nome, self.email, self._senha_hash, self.saldo, self.telefone, self.cidade, self.id))
         conn.commit()
         conn.close()
         return self
@@ -44,7 +46,7 @@ class Usuario:
         cursor = conn.cursor()
 
         query = f"""
-            SELECT u.*, p.bio, p.habilidades, p.portfolio_url, p.telefone, p.cidade 
+            SELECT u.*, p.bio, p.habilidades, p.portfolio_url
             FROM usuarios u
             LEFT JOIN freelancer_perfis p ON u.id = p.usuario_id
             WHERE u.{column} = ?
@@ -62,7 +64,7 @@ class Usuario:
                               telefone=user_data['telefone'], cidade=user_data['cidade'])
         else:
             user = Cliente(nome=user_data['nome'], email=user_data['email'], id=user_data['id'],
-                           saldo=user_data['saldo'])
+                           saldo=user_data['saldo'], telefone=user_data['telefone'], cidade=user_data['cidade'])
         
         user._senha_hash = user_data['senha_hash']
         return user

@@ -26,8 +26,6 @@ class Pedido:
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
         
-        # --- A ALTERAÇÃO ESTÁ NA QUERY ABAIXO ---
-        # Adicionamos 's.freelancer_id' à lista de colunas que estamos a buscar
         cursor.execute("""
             SELECT p.*, s.titulo as servico_titulo, s.freelancer_id
             FROM pedidos p
@@ -35,6 +33,25 @@ class Pedido:
             WHERE p.cliente_id = ?
             ORDER BY p.data_contratacao DESC
         """, (cliente_id,))
+        
+        pedidos = cursor.fetchall()
+        conn.close()
+        return pedidos
+
+    @staticmethod
+    def find_by_freelancer(freelancer_id: int):
+        conn = get_db_connection()
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        
+        cursor.execute("""
+            SELECT p.*, s.titulo as servico_titulo, c.nome as cliente_nome
+            FROM pedidos p
+            JOIN servicos s ON p.servico_id = s.id
+            JOIN usuarios c ON p.cliente_id = c.id
+            WHERE s.freelancer_id = ?
+            ORDER BY p.data_contratacao DESC
+        """, (freelancer_id,))
         
         pedidos = cursor.fetchall()
         conn.close()
