@@ -174,5 +174,11 @@ def create_app():
     @login_required
     def perfil_publico_cliente(cliente_id, **kwargs):
         return user_ctrl.show_public_client_profile(cliente_id)
+
+    @app.error(404)
+    def error404(error):
+        user_id = request.get_cookie("user_id", secret=SECRET_KEY)
+        usuario = Usuario.find_by_id(int(user_id)) if user_id else None
+        return template('error_404.tpl', usuario=usuario)
     
     return app
