@@ -59,6 +59,7 @@ O Sixerr conta com um ciclo completo de funcionalidades para dois tipos de utili
 
 A organização dos ficheiros segue o padrão Model-View-Controller (MVC):
 
+```
 epf-Sixerr/
 ├── controllers/
 │   ├── base_controller.py
@@ -104,7 +105,7 @@ epf-Sixerr/
 ├── main.py
 ├── Makefile
 └── requirements.txt
-
+```
 ---
 
 ## 🚀 Como Rodar o Projeto
@@ -125,24 +126,24 @@ python -m venv venv
 # No Windows (PowerShell):
 . .\venv\Scripts\activate
 # No macOS/Linux:
-# source venv/bin/activate
+source venv/bin/activate
 
 # 5. Instale as dependências
 pip install -r requirements.txt
 
-# 6. Delete qualquer base de dados antiga (se existir) para garantir uma estrutura limpa
-# e execute a aplicação. O banco será criado automaticamente.
+# 6. Delete qualquer base de dados antiga (se existir) para garantir uma estrutura limpa e execute a aplicação. O banco será criado automaticamente.
 python main.py
 
 # 7. Abra o seu navegador e acesse http://localhost:8080
 
 ---
+```
 
 ### UML - Diagrama de Classes
 
 A arquitetura Orientada a Objetos do projeto pode ser visualizada no seguinte diagrama:
 
-![Diagrama de Classes](docs/diagrama-epf-OO.png)
+![Diagrama de Classes](docs/diagrama_classes.png)
 
 ---
 
