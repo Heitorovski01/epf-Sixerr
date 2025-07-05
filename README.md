@@ -1,105 +1,152 @@
-# Projeto Template: POO com Python + Bottle + JSON
+# 🛍️ Sixerr Marketplace
 
-Este é um projeto de template educacional voltado para o ensino de **Programação Orientada a Objetos (POO)** do Prof. Lucas Boaventura, Universidade de Brasília (UnB).
+![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
+![Framework](https://img.shields.io/badge/Framework-Bottle-green.svg)
+![Database](https://img.shields.io/badge/Database-SQLite-blue.svg)
 
-Utiliza o microframework **Bottle**. Ideal para uso em disciplinas introdutórias de Engenharia de Software ou Ciência da Computação.
-
-## 💡 Objetivo
-
-Fornecer uma base simples, extensível e didática para construção de aplicações web orientadas a objetos com aplicações WEB em Python, ideal para trabalhos finais ou exercícios práticos.
+*Projeto final da disciplina de Orientação a Objetos. Sixerr é um marketplace web funcional desenvolvido em Python com o micro-framework Bottle, que conecta freelancers a clientes de forma simples e eficiente.*
 
 ---
 
-## 🗂 Estrutura de Pastas
+### 📝 Sobre o Projeto
+
+O Sixerr foi concebido como uma solução para o desafio de conectar talentos a oportunidades. Inspirado em plataformas de freelancing consagradas, este projeto aplica os quatro pilares da Programação Orientada a Objetos (Abstração, Encapsulamento, Herança e Polimorfismo) para criar um sistema robusto e modular.
+
+A arquitetura segue o padrão **Model-View-Controller (MVC)**, garantindo uma separação clara entre a lógica de negócio (Controllers), a manipulação dos dados (Models) e a apresentação (Views), o que resulta num código mais limpo, manutenível e escalável.
+
+![Homepage do Sixerr](docs/print_homepage.png)
+
+---
+
+### ✨ Funcionalidades Principais
+
+O Sixerr conta com um ciclo completo de funcionalidades para dois tipos de utilizadores: **Clientes** e **Freelancers**.
+
+#### **Funcionalidades Gerais**
+* 👤 **Sistema de Autenticação:** Registo diferenciado para Clientes e Freelancers e sistema de login seguro.
+* 🔐 **Proteção de Rotas:** Utilização de decorators para garantir que apenas utilizadores logados (e com a permissão correta) possam acessar determinadas páginas.
+* 🎨 **Interface Customizada:** Um design moderno e consistente, com tema escuro para as áreas de gestão.
+* 💳 **Carteira Virtual:** Cada utilizador possui uma carteira para gerir um saldo fictício.
+* ❌ **Páginas de Erro Personalizadas:** Páginas de erro 403 (Acesso Negado) e 404 (Não Encontrado) integradas ao design do site.
+
+#### **Funcionalidades do Cliente**
+* 🔍 **Explorar Serviços:** Visualização de todos os serviços disponíveis na plataforma.
+* 📄 **Ver Detalhes:** Acesso a uma página de detalhes para cada serviço.
+* 👨‍💻 **Ver Perfil do Freelancer:** Capacidade de visualizar o perfil público do freelancer que oferece um serviço.
+* 💰 **Depositar Dinheiro:** Opção de adicionar fundos à sua carteira virtual.
+* 🛒 **Contratar Serviço:** Fluxo completo de contratação, com o valor do serviço a ser debitado do seu saldo e transferido para o freelancer.
+* 📋 **Histórico de Pedidos:** Uma página dedicada ("Meus Pedidos") para ver todos os serviços que já contratou.
+
+#### **Funcionalidades do Freelancer**
+* 🛠️ **Gestão de Serviços (CRUD):** Um freelancer pode Criar, Ler, Atualizar e Excluir os seus próprios serviços num painel de controlo dedicado.
+* प्रोफाइल **Perfil Completo e Editável:** Perfil detalhado com biografia, habilidades, portfólio e informações de contato que podem ser editados.
+* 📈 **Histórico de Vendas:** Uma página dedicada ("Minhas Vendas") para ver o histórico de todos os serviços que já vendeu, para qual cliente e por qual valor.
+* 💸 **Sacar Dinheiro:** Opção de retirar fundos da sua carteira virtual.
+
+---
+
+### 🛠️ Tecnologias Utilizadas
+
+* **Backend:** Python 3
+* **Framework:** Bottle
+* **Banco de Dados:** SQLite 3
+* **Frontend:** HTML5, CSS3, JavaScript (para interações dinâmicas no formulário)
+* **Framework CSS:** Bootstrap 5
+
+---
+
+### 📂 Estrutura do Projeto
+
+A organização dos ficheiros segue o padrão Model-View-Controller (MVC):
+
+epf-Sixerr/
+├── controllers/
+│   ├── base_controller.py
+│   ├── servico_controller.py
+│   └── user_controller.py
+├── data/
+│   └── database.py
+├── docs/
+│   ├── diagrama-epf-OO.png
+│   └── print_homepage.png
+├── models/
+│   ├── cliente.py
+│   ├── freelancer.py
+│   ├── pedido.py
+│   ├── servico.py
+│   └── usuario.py
+├── static/
+│   └── css/
+│       ├── custom.css
+│       ├── login.css
+│       └── meus_servicos.css
+│   └── img/
+│       ├── BottleLogo.png
+│       ├── logo.png
+│       └── logo2.jpeg
+├── views/
+│   ├── carteira.tpl
+│   ├── error_404.tpl
+│   ├── home.tpl
+│   ├── layout.tpl
+│   ├── login.tpl
+│   ├── meus_pedidos.tpl
+│   ├── meus_servicos.tpl
+│   ├── minhas_vendas.tpl
+│   ├── perfil.tpl
+│   ├── perfil_cliente.tpl
+│   ├── perfil_editar.tpl
+│   ├── perfil_publico.tpl
+│   └── register.tpl
+├── .gitignore
+├── app.py
+├── config.py
+├── main.py
+├── Makefile
+└── requirements.txt
+
+---
+
+## 🚀 Como Rodar o Projeto
+
+Siga os passos abaixo para executar o projeto localmente.
 
 ```bash
-poo-python-bottle-template/
-├── app.py # Ponto de entrada do sistema
-├── config.py # Configurações e caminhos do projeto
-├── main.py # Inicialização da aplicação
-├── requirements.txt # Dependências do projeto
-├── README.md # Este arquivo
-├── controllers/ # Controladores e rotas
-├── models/ # Definição das entidades (ex: User)
-├── services/ # Lógica de persistência (JSON)
-├── views/ # Arquivos HTML (Bottle Templating)
-├── static/ # CSS, JS e imagens
-├── data/ # Arquivos JSON de dados
-└── .vscode/ # Configurações opcionais do VS Code
-```
+# 1. Clone o repositório para a sua máquina
+git clone https://github.com/Heitorovski01/epf-Sixerr.git
 
+# 2. Navegue até a pasta do projeto
+cd epf-Sixerr
 
----
-
-## 📁 Descrição das Pastas
-
-### `controllers/`
-Contém as classes responsáveis por lidar com as rotas da aplicação. Exemplos:
-- `user_controller.py`: rotas para listagem, adição, edição e remoção de usuários.
-- `base_controller.py`: classe base com utilitários comuns.
-
-### `models/`
-Define as classes que representam os dados da aplicação. Exemplo:
-- `user.py`: classe `User`, com atributos como `id`, `name`, `email`, etc.
-
-### `services/`
-Responsável por salvar, carregar e manipular dados usando arquivos JSON. Exemplo:
-- `user_service.py`: contém métodos como `get_all`, `add_user`, `delete_user`.
-
-### `views/`
-Contém os arquivos `.tpl` utilizados pelo Bottle como páginas HTML:
-- `layout.tpl`: estrutura base com navegação e bloco `content`.
-- `users.tpl`: lista os usuários.
-- `user_form.tpl`: formulário para adicionar/editar usuário.
-
-### `static/`
-Arquivos estáticos como:
-- `css/style.css`: estilos básicos.
-- `js/main.js`: scripts JS opcionais.
-- `img/BottleLogo.png`: exemplo de imagem.
-
-### `data/`
-Armazena os arquivos `.json` que simulam o banco de dados:
-- `users.json`: onde os dados dos usuários são persistidos.
-
----
-
-## ▶️ Como Executar
-
-1. Crie o ambiente virtual na pasta fora do seu projeto:
-```bash
+# 3. Crie um ambiente virtual
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
-venv\\Scripts\\activate     # Windows
-```
 
-2. Entre dentro do seu projeto criado a partir do template e instale as dependências:
-```bash
+# 4. Ative o ambiente virtual
+# No Windows (PowerShell):
+. .\venv\Scripts\activate
+# No macOS/Linux:
+# source venv/bin/activate
+
+# 5. Instale as dependências
 pip install -r requirements.txt
-```
 
-3. Rode a aplicação:
-```bash
+# 6. Delete qualquer base de dados antiga (se existir) para garantir uma estrutura limpa
+# e execute a aplicação. O banco será criado automaticamente.
 python main.py
-```
 
-4. Accese sua aplicação no navegador em: [http://localhost:8080](http://localhost:8080)
-
----
-
-## ✍️ Personalização
-Para adicionar novos modelos (ex: Atividades):
-
-1. Crie a classe no diretório **models/**.
-
-2. Crie o service correspondente para manipulação do JSON.
-
-3. Crie o controller com as rotas.
-
-4. Crie as views .tpl associadas.
+# 7. Abra o seu navegador e acesse http://localhost:8080
 
 ---
 
-## 🧠 Autor e Licença
-Projeto desenvolvido como template didático para disciplinas de Programação Orientada a Objetos, baseado no [BMVC](https://github.com/hgmachine/bmvc_start_from_this).
-Você pode reutilizar, modificar e compartilhar livremente.
+### UML - Diagrama de Classes
+
+A arquitetura Orientada a Objetos do projeto pode ser visualizada no seguinte diagrama:
+
+![Diagrama de Classes](docs/diagrama-epf-OO.png)
+
+---
+
+👥 Autores
+[Luiz Henrique Tomaz Moreira] - lht.unb@gmail.com
+
+[Heitor Pinheiro Gonçalves das Chagas] - heitorbsbdf@gmail.com
