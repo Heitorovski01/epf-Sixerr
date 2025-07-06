@@ -1,15 +1,16 @@
-# models/usuario.py (Versão Definitiva com find_by_email corrigido)
-
 import sqlite3
 import hashlib
 from data.database import get_db_connection
 
 class Usuario:
     def __init__(self, nome: str, email: str, tipo: str, id: int = None, saldo: float = 0.0, telefone: str = None, cidade: str = None):
-        self.id, self.nome, self.email, self.tipo = id, nome, email, tipo
+        self.id = id
+        self.nome = nome
+        self.email = email
+        self.tipo = tipo
         self.saldo = saldo
-        self.telefone = telefone 
-        self.cidade = cidade     
+        self.telefone = telefone
+        self.cidade = cidade
         self._senha_hash = None
 
     def set_senha(self, senha: str):
@@ -20,12 +21,11 @@ class Usuario:
         return self._senha_hash == hash_da_senha_digitada
 
     def save(self):
-        # Este método será sobrescrito pela classe filha (Freelancer) se necessário
         conn = get_db_connection()
         cursor = conn.cursor()
         if self.id is None:
-            cursor.execute("INSERT INTO usuarios (nome, email, senha_hash, tipo) VALUES (?, ?, ?, ?)",
-                           (self.nome, self.email, self._senha_hash, self.tipo))
+            cursor.execute("INSERT INTO usuarios (nome, email, senha_hash, tipo, saldo, telefone, cidade) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                           (self.nome, self.email, self._senha_hash, self.tipo, self.saldo, self.telefone, self.cidade))
             self.id = cursor.lastrowid
         else:
             cursor.execute("UPDATE usuarios SET nome=?, email=?, senha_hash=?, saldo=?, telefone=?, cidade=? WHERE id=?",
@@ -33,20 +33,26 @@ class Usuario:
         conn.commit()
         conn.close()
         return self
+    
+    def atualiza_saldo(self):
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("UPDATE usuarios SET saldo = ? WHERE id = ?", (self.saldo, self.id))
+        conn.commit()
+        conn.close()
 
     @classmethod
-    @classmethod
     def _find(cls, column: str, value):
-        """Método privado para encontrar um utilizador por uma coluna específica."""
         from models.freelancer import Freelancer
         from models.cliente import Cliente
 
         conn = get_db_connection()
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
-
+        
         query = f"""
-            SELECT u.*, p.bio, p.habilidades, p.portfolio_url
+            SELECT u.id, u.nome, u.email, u.senha_hash, u.tipo, u.saldo, u.telefone, u.cidade,
+                   p.bio, p.habilidades, p.portfolio_url
             FROM usuarios u
             LEFT JOIN freelancer_perfis p ON u.id = p.usuario_id
             WHERE u.{column} = ?
@@ -76,10 +82,3 @@ class Usuario:
     @classmethod
     def find_by_email(cls, email: str):
         return cls._find('email', email)
-    
-    def atualiza_saldo(self):
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("UPDATE usuarios SET saldo = ? WHERE id = ?", (self.saldo, self.id))
-        conn.commit()
-        conn.close()
