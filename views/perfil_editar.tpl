@@ -1,6 +1,6 @@
-% rebase('layout.tpl', title='Editar Perfil', style='meus_servicos')
+% rebase('layout.tpl', title='Editar Perfil', style='perfil')
 
-<div class="dark-section">
+<div class="dark-section" style="height: 100vh;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10">
@@ -16,15 +16,15 @@
                             % # Campos que só aparecem para FREELANCERS
                             % if usuario.tipo == 'freelancer':
                                 <h5 class="mb-3">Seu Perfil Profissional</h5>
-                                <div class="mb-3">
+                                <div class="mb-3 col-md-8">
                                     <label for="habilidades" class="form-label">Suas Habilidades (separadas por vírgula)</label>
                                     <input type="text" class="form-control form-control-dark" id="habilidades" name="habilidades" value="{{usuario.habilidades or ''}}">
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-3 col-md-8">
                                     <label for="bio" class="form-label">Sua Biografia</label>
                                     <textarea class="form-control form-control-dark" id="bio" name="bio" rows="5">{{usuario.bio or ''}}</textarea>
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-3 col-md-8">
                                     <label for="portfolio_url" class="form-label">Link para seu Portfólio</label>
                                     <input type="url" class="form-control form-control-dark" id="portfolio_url" name="portfolio_url" value="{{usuario.portfolio_url or ''}}">
                                 </div>
@@ -33,11 +33,11 @@
 
                             % # Campos de Contato que aparecem para AMBOS
                             <h5 class="mb-3">Suas Informações de Contato</h5>
-                            <div class="mb-3">
+                            <div class="mb-3 col-md-8">
                                 <label for="telefone" class="form-label">Telefone de Contato</label>
                                 <input type="tel" class="form-control form-control-dark" id="telefone" name="telefone" value="{{usuario.telefone or ''}}">
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3 col-md-8">
                                 <label for="cidade" class="form-label">Cidade / Localização</label>
                                 <input type="text" class="form-control form-control-dark" id="cidade" name="cidade" value="{{usuario.cidade or ''}}">
                             </div>

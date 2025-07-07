@@ -1,4 +1,4 @@
-% rebase('layout.tpl', title='Meu Perfil', style='meus_servicos')
+% rebase('layout.tpl', title='Meu Perfil', style='perfil')
 
 <div class="dark-section">
     <div class="container">
