@@ -82,3 +82,10 @@ class Usuario:
     @classmethod
     def find_by_email(cls, email: str):
         return cls._find('email', email)
+    @staticmethod
+    def delete_by_id(user_id: int):
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM usuarios WHERE id = ?", (user_id,))
+        conn.commit()
+        conn.close()
